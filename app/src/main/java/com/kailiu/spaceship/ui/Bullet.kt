@@ -1,4 +1,4 @@
-package com.kailiu.spaceship
+package com.kailiu.spaceship.ui
 
 import android.content.res.Resources
 import android.graphics.Rect

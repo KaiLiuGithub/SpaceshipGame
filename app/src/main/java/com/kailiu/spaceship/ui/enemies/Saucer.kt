@@ -1,10 +1,11 @@
-package com.kailiu.spaceship.enemies
+package com.kailiu.spaceship.ui.enemies
 
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import com.kailiu.spaceship.GameView
 import com.kailiu.spaceship.R
-import com.kailiu.spaceship.hitboxes.Oval
+import com.kailiu.spaceship.ui.hitboxes.Oval
 import kotlin.random.Random
 
 class Saucer(res: Resources): Enemy(res) {
@@ -23,11 +24,11 @@ class Saucer(res: Resources): Enemy(res) {
         width = enemy.width.toDouble()
         height = enemy.height.toDouble()
 
-        width /= 15
-        height /= 15
+        width /= IMAGE_SCALE
+        height /= IMAGE_SCALE
 
-        //width *= GameView.screenRatioX
-        //height *= GameView.screenRatioY
+        width *= GameView.screenRatioX
+        height *= GameView.screenRatioX
 
         enemy = Bitmap.createScaledBitmap(enemy, width.toInt(), height.toInt(), false)
     }

@@ -4,14 +4,15 @@ import android.content.Context
 import android.graphics.*
 import android.view.MotionEvent
 import android.view.SurfaceView
-import com.kailiu.spaceship.enemies.Asteroid
-import com.kailiu.spaceship.enemies.Enemy
-import com.kailiu.spaceship.pickups.Ammo
-import com.kailiu.spaceship.pickups.PickupType
-import com.kailiu.spaceship.pickups.Pickups
-import com.kailiu.spaceship.pickups.Shield
+import com.kailiu.spaceship.ui.Background
+import com.kailiu.spaceship.ui.Bullet
+import com.kailiu.spaceship.ui.Rocket
+import com.kailiu.spaceship.ui.enemies.Asteroid
+import com.kailiu.spaceship.ui.enemies.Enemy
+import com.kailiu.spaceship.ui.pickups.*
 import java.util.concurrent.Semaphore
 import kotlin.random.Random
+import kotlin.concurrent.thread
 
 
 class GameView(context: Context, var x: Int = 0, var y: Int = 0): SurfaceView(context), Runnable {
@@ -21,25 +22,29 @@ class GameView(context: Context, var x: Int = 0, var y: Int = 0): SurfaceView(co
     }
 
     private val BULLET_FRAMES = 15
+    private val INFO_OFFSET = 20
 
     var score = 0
 
     lateinit var thread: Thread
-    var isPlaying = false
+    private var isPlaying = false
     var isGameOver = false
-    var paint: Paint
-    var background1: Background = Background(x, y, resources)
-    var background2: Background = Background(x, y, resources)
-    var rocket: Rocket = Rocket(resources)
-    var enemies = ArrayList<Enemy>()
-    var pickups = ArrayList<Pickups>()
+    private var paint: Paint
+    private var background1 = Background(x, y, resources)
+    private var background2 = Background(x, y, resources)
+    private var rocket = Rocket(resources)
+    private var enemies = ArrayList<Enemy>()
+    private var pickups = ArrayList<Pickups>()
+    var info = ArrayList<Pickups>()
 
     private val rocketSemaphore: Semaphore = Semaphore(1, true)
     private val enemiesSemaphore: Semaphore = Semaphore(1, true)
     private val pickupsSemaphore: Semaphore = Semaphore(1, true)
     private val bulletsSemaphore: Semaphore = Semaphore(1, true)
+    private val infoSemaphore: Semaphore = Semaphore(1, true)
 
-    var guideLines = ArrayList<Rect>()
+    private var guideLines = ArrayList<Rect>()
+    private var infoBox: Rect
     
     var isShooting = false
     var frames = 0
@@ -69,7 +74,30 @@ class GameView(context: Context, var x: Int = 0, var y: Int = 0): SurfaceView(co
             enemies.add(enemy)
         }
 
+        info.add(Life(resources).apply {
+            this.x = INFO_OFFSET
+            this.y = INFO_OFFSET
+        })
+        info.add(Life(resources).apply {
+            this.x = INFO_OFFSET + INFO_OFFSET / 2 + this.width.toInt()
+            this.y = INFO_OFFSET
+        })
+        info.add(Life(resources).apply {
+            this.x = INFO_OFFSET + INFO_OFFSET + 2 * this.width.toInt()
+            this.y = INFO_OFFSET
+        })
+        info.add(Shield(resources).apply {
+            this.x = this@GameView.x - 2 * this.width.toInt() - INFO_OFFSET
+            this.y = INFO_OFFSET
+        })
+        info.add(Ammo(resources).apply {
+            this.x = this@GameView.x - this.width.toInt() - INFO_OFFSET
+            this.y = INFO_OFFSET
+        })
+
         guideLines.add(Rect(0, 0, x, 5))
+
+        infoBox = Rect(INFO_OFFSET, INFO_OFFSET, x, info[0].height.toInt() + INFO_OFFSET)
     }
 
     override fun run() {
@@ -92,69 +120,55 @@ class GameView(context: Context, var x: Int = 0, var y: Int = 0): SurfaceView(co
         }
 
         // bullets (rocket)
-        while (!bulletsSemaphore.tryAcquire()) {}
-        var i = 0
-        val bullets = rocket.bullets
-        while (i in 0 until bullets.size) {
-            if (Rect.intersects(bullets[i].bullet, guideLines[0])) {
-                bullets.removeAt(i)
-            } else {
-                bullets[i].move()
-                var j = 0
-                while (j < enemies.size) {
-                    if (enemies[j].getCollisionShape().intersects(bullets[i].bullet)) {
-                        enemies[j].hp--
-                        if (enemies[j].hp <= 0) enemies.removeAt(j)
-                        bullets.removeAt(i)
-                        println("hit $score")
-                        score++
-                        i--
-                        break
+        thread {
+            while (!bulletsSemaphore.tryAcquire()) {}
+            var i = 0
+            val bullets = rocket.bullets
+            while (i in 0 until bullets.size) {
+                if (Rect.intersects(bullets[i].bullet, guideLines[0])) {
+                    bullets.removeAt(i)
+                } else {
+                    bullets[i].move()
+                    var j = 0
+                    while (j < enemies.size) {
+                        if (enemies[j].getCollisionShape().intersects(bullets[i].bullet)) {
+                            enemies[j].hp--
+                            if (enemies[j].hp <= 0) enemies.removeAt(j)
+                            bullets.removeAt(i)
+                            score++
+                            i--
+                            break
+                        }
+                        j++
                     }
-                    j++
+                    i++
                 }
-                i++
             }
+            bulletsSemaphore.release()
         }
-        bulletsSemaphore.release()
         
         // enemies
-        while (!enemiesSemaphore.tryAcquire()) {}
-        if (Random.nextInt(0, 100) < 2 && !enemies[enemies.size - 1].getCollisionShape().intersects(guideLines[0])) {
-            val index = Random.nextInt(0, 5)
-            enemies.add(enemies[index])
-            val enemy = Enemy.generateEnemy(resources)
-            enemy.x = Random.nextInt(0, x - enemy.width.toInt())
-            enemy.y -= enemy.height.toInt()
-            enemies[index] = enemy
-        }
+        thread {
+            while (!enemiesSemaphore.tryAcquire()) {}
+            if (Random.nextInt(
+                    0,
+                    100
+                ) < 2 && !enemies[enemies.size - 1].getCollisionShape().intersects(guideLines[0])
+            ) {
+                val index = Random.nextInt(0, 5)
+                enemies.add(enemies[index])
+                val enemy = Enemy.generateEnemy(resources)
+                enemy.x = Random.nextInt(0, x - enemy.width.toInt())
+                enemy.y -= enemy.height.toInt()
+                enemies[index] = enemy
+            }
 
-        i = 5
-        while (i < enemies.size) {
-            val collide = enemies[i].getCollisionShape().intersects(rocket.getCollisionShape())
-            if (enemies[i].y >= y || collide) {
-                enemies.removeAt(i)
-                if (collide) {
-                    if (rocket.pickups[0]) {
-                        rocket.pickups[0] = false
-                    } else {
-                        if (rocket.pickups[1]) {
-                            rocket.pickups[1] = false
-                        }
-                        rocket.health--
-                    }
-                }
-            } else {
-                enemies[i].move(frame = frames, fieldW = x)
-                enemies[i].animate(frames)
-                if (enemies[i].bullets.size < enemies[i].maxBullets) {
-                    if (frames % BULLET_FRAMES == 0) {
-                        enemies[i].bullets.add(Bullet(enemies[i].x + enemies[i].height.toInt() / 2, enemies[i].y + enemies[i].height.toInt(), 15, 15))
-                    }
-                }
-                var j = 0
-                while (j in 0 until enemies[i].bullets.size) {
-                    if (Rect.intersects(enemies[i].bullets[j].bullet, rocket.getCollisionShape())) {
+            var i = 5
+            while (i < enemies.size) {
+                val collide = enemies[i].getCollisionShape().intersects(rocket.getCollisionShape())
+                if (enemies[i].y >= y || collide) {
+                    enemies.removeAt(i)
+                    if (collide) {
                         if (rocket.pickups[0]) {
                             rocket.pickups[0] = false
                         } else {
@@ -163,67 +177,126 @@ class GameView(context: Context, var x: Int = 0, var y: Int = 0): SurfaceView(co
                             }
                             rocket.health--
                         }
-                        enemies[i].bullets.removeAt(j)
-                        j--
-                    } else {
-                        enemies[i].bullets[j].move(isRocket = false)
-                        j++
                     }
-                }
-                i++
-            }
-        }
-        enemiesSemaphore.release()
-
-        // pickups
-        while (!pickupsSemaphore.tryAcquire()) {}
-        if (pickups.size < 2 && Random.nextInt(0, 5000) < 5) {
-            val pickup = Pickups.createPickup(PickupType.valueOf(Random.nextInt(0, 3))!!, resources)
-            pickups.add(pickup.apply {
-                this.x = Random.nextInt(0, this@GameView.x - width.toInt())
-                this.y -= height.toInt()
-            })
-        }
-        if (pickups.isNotEmpty()) {
-            pickups[0].y += 5
-            val collide = pickups[0].getCollisionShape().intersects(rocket.getCollisionShape())
-            if (pickups[0].y >= y || collide) {
-                if (collide) {
-                    when (pickups[0]) {
-                        is Shield -> rocket.pickups[0] = true
-                        is Ammo -> rocket.pickups[1] = true
-                        else -> {
+                } else {
+                    enemies[i].move(frame = frames, fieldW = x)
+                    enemies[i].animate(frames)
+                    if (enemies[i].bullets.size < enemies[i].maxBullets) {
+                        if (frames % BULLET_FRAMES == 0) {
+                            enemies[i].bullets.add(
+                                Bullet(
+                                    enemies[i].x + enemies[i].height.toInt() / 2,
+                                    enemies[i].y + enemies[i].height.toInt(),
+                                    15,
+                                    15
+                                )
+                            )
                         }
                     }
+                    var j = 0
+                    while (j in 0 until enemies[i].bullets.size) {
+                        if (Rect.intersects(
+                                enemies[i].bullets[j].bullet,
+                                rocket.getCollisionShape()
+                            )
+                        ) {
+                            if (rocket.pickups[0]) {
+                                rocket.pickups[0] = false
+                            } else {
+                                if (rocket.pickups[1]) {
+                                    rocket.pickups[1] = false
+                                }
+                                rocket.health--
+                            }
+                            enemies[i].bullets.removeAt(j)
+                            j--
+                        } else {
+                            enemies[i].bullets[j].move(isRocket = false)
+                            j++
+                        }
+                    }
+                    i++
                 }
-                pickups.removeAt(0)
             }
+            enemiesSemaphore.release()
         }
-        pickupsSemaphore.release()
+
+        // pickups
+        thread {
+            while (!pickupsSemaphore.tryAcquire()) {}
+            if (pickups.size < 2 && Random.nextInt(0, 5000) < 5) {
+                val pickup =
+                    Pickups.createPickup(resources)
+                pickups.add(pickup.apply {
+                    this.x = Random.nextInt(0, this@GameView.x - width.toInt())
+                    this.y -= height.toInt()
+                })
+            }
+            if (pickups.isNotEmpty()) {
+                pickups[0].y += 5
+                val collide = pickups[0].getCollisionShape().intersects(rocket.getCollisionShape())
+                if (pickups[0].y >= y || collide) {
+                    if (collide) {
+                        when (pickups[0]) {
+                            is Shield -> rocket.pickups[0] = true
+                            is Ammo -> rocket.pickups[1] = true
+                            else -> if (rocket.health < 3) rocket.health++
+                        }
+                    }
+                    pickups.removeAt(0)
+                }
+            }
+            pickupsSemaphore.release()
+        }
 
         // rocket
-        while (!rocketSemaphore.tryAcquire()) {}
-        if (isShooting) {
-            if (shootingFrames % 15 == 0) {
-                if (rocket.pickups[1]) {
-                    bullets.add(Bullet(rocket.x + (rocket.width / 2).toInt() - 15, rocket.y))
-                    bullets.add(Bullet(rocket.x + (rocket.width / 2).toInt() + 15, rocket.y))
-                } else {
-                    bullets.add(Bullet(rocket.x + (rocket.width / 2).toInt(), rocket.y))
+        thread {
+            while (!rocketSemaphore.tryAcquire()) {}
+            if (isShooting) {
+                if (shootingFrames % 15 == 0) {
+                    if (rocket.pickups[1]) {
+                        rocket.bullets.add(
+                            Bullet(
+                                rocket.x + (rocket.width / 2).toInt() - 15,
+                                rocket.y
+                            )
+                        )
+                        rocket.bullets.add(
+                            Bullet(
+                                rocket.x + (rocket.width / 2).toInt() + 15,
+                                rocket.y
+                            )
+                        )
+                    } else {
+                        rocket.bullets.add(
+                            Bullet(
+                                rocket.x + (rocket.width / 2).toInt(),
+                                rocket.y
+                            )
+                        )
+                    }
+                }
+                shootingFrames++
+
+                if (tapX1 < rocket.x) {
+                    rocket.move(-15, 0)
+                } else if (tapX1 > rocket.x + rocket.width) {
+                    rocket.move(15, 0)
+                } else if (rocket.x > 0 && rocket.x + rocket.width < x) {
+                    val dx = tapX1 - (rocket.x + (rocket.width / 2).toInt())
+                    rocket.move(0, 0)
                 }
             }
-            shootingFrames++
-
-            if (tapX1 < rocket.x) {
-                rocket.move(-15, 0)
-            } else if (tapX1 > rocket.x + rocket.width) {
-                rocket.move(15, 0)
-            } else if (rocket.x > 0 && rocket.x + rocket.width < x){
-                val dx = tapX1 - (rocket.x + (rocket.width / 2).toInt())
-                rocket.move(0, 0)
-            }
+            rocketSemaphore.release()
         }
-        rocketSemaphore.release()
+
+        thread {
+            while (!infoSemaphore.tryAcquire()) {}
+            (info[0] as Life).setStatus(rocket.health, 1)
+            (info[1] as Life).setStatus(rocket.health, 2)
+            (info[2] as Life).setStatus(rocket.health, 3)
+            infoSemaphore.release()
+        }
 
         // Check Game Over
         if (rocket.health <= 0) {
@@ -243,6 +316,9 @@ class GameView(context: Context, var x: Int = 0, var y: Int = 0): SurfaceView(co
             // Guide Lines
             paint.color = Color.TRANSPARENT
             canvas.drawRect(guideLines[0], paint)
+
+            paint.color = Color.parseColor("#22000000")
+            canvas.drawRect(infoBox, paint)
 
             // Bullets
             while (!bulletsSemaphore.tryAcquire()) {}
@@ -291,6 +367,22 @@ class GameView(context: Context, var x: Int = 0, var y: Int = 0): SurfaceView(co
                 canvas.drawPath(myPath, paint)
             }
             rocketSemaphore.release()
+
+
+            // Info
+            paint.shader = LinearGradient(0f, 0f, 0f, 0f, Color.YELLOW, Color.YELLOW, Shader.TileMode.MIRROR)
+            paint.textSize = 16f * resources.displayMetrics.density
+            canvas.drawText("Score: $score", x / 2f - x / 20, infoBox.exactCenterY(), paint)
+
+            while (!infoSemaphore.tryAcquire()) {}
+            canvas.drawBitmap(info[0].pickup, info[0].x.toFloat(), info[0].y.toFloat(), paint)
+            canvas.drawBitmap(info[1].pickup, info[1].x.toFloat(), info[1].y.toFloat(), paint)
+            canvas.drawBitmap(info[2].pickup, info[2].x.toFloat(), info[2].y.toFloat(), paint)
+            if (rocket.pickups[0])
+                canvas.drawBitmap(info[3].pickup, info[3].x.toFloat(), info[3].y.toFloat(), paint)
+            if (rocket.pickups[1])
+                canvas.drawBitmap(info[4].pickup, info[4].x.toFloat(), info[4].y.toFloat(), paint)
+            infoSemaphore.release()
 
             holder.unlockCanvasAndPost(canvas)
         }

@@ -1,12 +1,12 @@
-package com.kailiu.spaceship.enemies
+package com.kailiu.spaceship.ui.enemies
 
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
+import com.kailiu.spaceship.GameView
 import com.kailiu.spaceship.R
-import com.kailiu.spaceship.hitboxes.Oval
-import kotlin.math.sqrt
+import com.kailiu.spaceship.ui.hitboxes.Oval
 import kotlin.random.Random
 
 
@@ -26,11 +26,11 @@ class Asteroid(res: Resources): Enemy(res) {
         width = enemy.width.toDouble()
         height = enemy.height.toDouble()
 
-        width /= 15
-        height /= 15
+        width /= IMAGE_SCALE
+        height /= IMAGE_SCALE
 
-        //width *= GameView.screenRatioX
-        //height *= GameView.screenRatioY
+        width *= GameView.screenRatioX
+        height *= GameView.screenRatioX
 
         val matrix = Matrix()
 
@@ -50,7 +50,7 @@ class Asteroid(res: Resources): Enemy(res) {
         if (frame % 30 == 0) {
             val matrix = Matrix()
             matrix.postRotate(90f)
-            enemy = Bitmap.createBitmap(enemy, 0, 0, width.toInt(), height.toInt(), matrix, false)
+            //enemy = Bitmap.createBitmap(enemy, 0, 0, width.toInt(), height.toInt(), matrix, false)
         }
     }
 

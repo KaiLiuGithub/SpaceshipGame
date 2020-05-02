@@ -1,7 +1,6 @@
-package com.kailiu.spaceship.hitboxes
+package com.kailiu.spaceship.ui.hitboxes
 
 import android.graphics.Rect
-import kotlin.math.pow
 import kotlin.math.sqrt
 
 class Oval(var x: Int = 0, var y: Int = 0, var xAxis: Int = 0, var yAxis: Int = 0) {
@@ -14,14 +13,14 @@ class Oval(var x: Int = 0, var y: Int = 0, var xAxis: Int = 0, var yAxis: Int = 
 
     fun intersects(rect: Rect): Boolean {
         val left = yAxis / xAxis * sqrt(xAxis * xAxis - rect.left * rect.left - x * x + 2.0 * rect.left * x)
-        if (!left.isNaN() && y + left >= rect.top) return true
+        if (!left.isNaN() && y + left >= rect.top && y - left <= rect.top) return true
 
         val avg = rect.left + (rect.right - rect.left)/2
         val mid = yAxis / xAxis * sqrt(xAxis * xAxis - avg * avg - x * x + 2.0 * avg * x)
-        if (!left.isNaN() && y + left >= rect.top) return true
+        if (!mid.isNaN() && y + mid >= rect.top && y - mid <= rect.top) return true
 
         val right= yAxis / xAxis * sqrt(xAxis * xAxis - rect.right * rect.right - x * x + 2.0 * rect.right * x)
-        if (!right.isNaN() && y + right >= rect.top) return true
+        if (!right.isNaN() && y + right >= rect.top && y - right <= rect.top) return true
 
         return false
     }

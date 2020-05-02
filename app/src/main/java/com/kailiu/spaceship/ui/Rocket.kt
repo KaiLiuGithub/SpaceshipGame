@@ -1,12 +1,12 @@
-package com.kailiu.spaceship
+package com.kailiu.spaceship.ui
 
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.graphics.Rect
-import com.kailiu.spaceship.hitboxes.Triangle
-import com.kailiu.spaceship.pickups.PickupType
+import com.kailiu.spaceship.R
+import com.kailiu.spaceship.ui.pickups.PickupType
 
 class Rocket(var res: Resources) {
     var x = 0
@@ -18,8 +18,12 @@ class Rocket(var res: Resources) {
     private var heightR: Double
     var width: Double
     var height: Double
-    var rocket: Bitmap = BitmapFactory.decodeResource(res, R.drawable.rocket)
-    var flame: Bitmap = BitmapFactory.decodeResource(res, R.drawable.flame0)
+    var rocket: Bitmap = BitmapFactory.decodeResource(res,
+        R.drawable.rocket
+    )
+    var flame: Bitmap = BitmapFactory.decodeResource(res,
+        R.drawable.flame0
+    )
     var bullets = ArrayList<Bullet>()
     var pickups = MutableList(2) { _ -> false}
 

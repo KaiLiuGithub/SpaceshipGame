@@ -1,23 +1,32 @@
 package com.kailiu.spaceship
 
+import android.content.DialogInterface
 import android.graphics.Point
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.WindowManager
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import com.kailiu.spaceship.database.ScoreRepository
+import com.kailiu.spaceship.dialog.GameOverDialog
+import javax.inject.Inject
 import kotlin.concurrent.thread
 
+
 class GameActivity: AppCompatActivity() {
+
+    @Inject
+    lateinit var scoreRepository: ScoreRepository
 
     lateinit var gameView: GameView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        (applicationContext as SpaceshipApp).appComponent.inject(this)
 
         window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
 
@@ -38,10 +47,16 @@ class GameActivity: AppCompatActivity() {
         thread {
             while (!gameView.isGameOver) {}
 
-            val dialogFragment: DialogFragment = GameOverDialog(point.x, point.x, gameView.score, this)
+            val dialogFragment: DialogFragment =
+                GameOverDialog(
+                    point.x,
+                    point.y,
+                    gameView.score,
+                    this
+                )
 
             Handler(Looper.getMainLooper()).post {
-                dialogFragment.show(ft, "dialog")
+                dialogFragment.show(ft, "dialog_gameover")
             }
         }
     }
@@ -66,4 +81,8 @@ class GameActivity: AppCompatActivity() {
             onPause()
         }
     }
+}
+
+interface DialogCloseListener {
+    fun handleDialogClose(dialog: DialogInterface?)
 }

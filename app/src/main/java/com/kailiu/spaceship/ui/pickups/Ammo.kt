@@ -1,12 +1,12 @@
-package com.kailiu.spaceship.pickups
+package com.kailiu.spaceship.ui.pickups
 
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import com.kailiu.spaceship.R
-import com.kailiu.spaceship.hitboxes.Oval
+import com.kailiu.spaceship.ui.hitboxes.Oval
 
-class Life(res: Resources): Pickups(res) {
+class Ammo(res: Resources): Pickups(res) {
 
     init {
 

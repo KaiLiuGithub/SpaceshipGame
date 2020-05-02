@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 29
@@ -34,4 +35,21 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
+
+    def androidx_room = "2.2.5"
+    def dagger = "2.24"
+    def recycler_view = "1.1.0"
+    
+    api "androidx.room:room-runtime:$androidx_room"
+    api "androidx.room:room-ktx:$androidx_room"
+    kapt "androidx.room:room-compiler:$androidx_room"
+
+    implementation "com.google.dagger:dagger:$dagger"
+    kapt "com.google.dagger:dagger-compiler:$dagger"
+    implementation "com.google.dagger:dagger-android:$dagger"
+    implementation "com.google.dagger:dagger-android:$dagger"
+    kapt "com.google.dagger:dagger-android-processor:$dagger"
+
+    implementation "androidx.recyclerview:recyclerview:$recycler_view"
+
 }

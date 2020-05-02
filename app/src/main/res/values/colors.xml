@@ -6,7 +6,7 @@
 
     <color name="transparent">#00000000</color>
 
-    <color name="button_border">#544F50</color>
+    <color name="button_border">#B0B0B0</color>
     <color name="button_text">#ADD8E6</color>
     <color name="score">#FFEA00</color>
 

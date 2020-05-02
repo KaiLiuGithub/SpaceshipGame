@@ -1,7 +1,6 @@
-package com.kailiu.spaceship.hitboxes
+package com.kailiu.spaceship.ui.hitboxes
 
 import android.graphics.Rect
-import kotlin.math.sqrt
 
 class Triangle(var p1x: Int, var p1y: Int, var p2x: Int, var p2y: Int, var p3x: Int, var p3y: Int) {
 

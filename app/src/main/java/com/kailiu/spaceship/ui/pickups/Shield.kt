@@ -1,16 +1,16 @@
-package com.kailiu.spaceship.pickups
+package com.kailiu.spaceship.ui.pickups
 
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import com.kailiu.spaceship.R
-import com.kailiu.spaceship.hitboxes.Oval
+import com.kailiu.spaceship.ui.hitboxes.Oval
 
-class Ammo(res: Resources): Pickups(res) {
+class Shield(res: Resources): Pickups(res) {
 
     init {
 
-        pickup = BitmapFactory.decodeResource(res, R.drawable.ammo)
+        pickup = BitmapFactory.decodeResource(res, R.drawable.shield)
 
         width = pickup.width.toDouble()
         height = pickup.height.toDouble()
