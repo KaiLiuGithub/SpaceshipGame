@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Spaceship</string>
+
+    <string name="menu_start">Start</string>
+
+    <!-- Game Over Dialog -->
+    <string name="gameover">Game Over</string>
+    <string name="hint">Name</string>
+    <string name="play_again">PLAY AGAIN</string>
+    <string name="main_menu">MAIN MENU</string>
+    <string name="score">YOUR SCORE: </string>
+    <string name="high_score">HIGH SCORE!</string>
+</resources>
