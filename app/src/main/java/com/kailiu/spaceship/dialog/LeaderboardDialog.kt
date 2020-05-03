@@ -9,6 +9,7 @@ import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.LinearLayout
 import android.widget.RelativeLayout
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
@@ -29,7 +30,6 @@ import javax.inject.Inject
 class LeaderboardDialog(var width: Int, var height: Int, var activity: Activity): DialogFragment() {
     lateinit var closeListener: DialogCloseListener
 
-    private lateinit var recyclerView: RecyclerView
     private lateinit var viewAdapter: RecyclerView.Adapter<*>
     private lateinit var viewManager: RecyclerView.LayoutManager
 
@@ -57,8 +57,8 @@ class LeaderboardDialog(var width: Int, var height: Int, var activity: Activity)
         leaderboardFrame.minWidth = (width * 0.9).toInt()
         leaderboardFrame.minHeight = (height * 0.9).toInt()
 
-        val ft: FragmentTransaction = fragmentManager!!.beginTransaction()
-        val prev: Fragment? = fragmentManager!!.findFragmentByTag("dialog")
+        val ft: FragmentTransaction = requireFragmentManager().beginTransaction()
+        val prev: Fragment? = requireFragmentManager().findFragmentByTag("dialog")
         if (prev != null) {
             ft.remove(prev)
         }
@@ -67,34 +67,50 @@ class LeaderboardDialog(var width: Int, var height: Int, var activity: Activity)
         viewManager = LinearLayoutManager(context)
         viewAdapter = ScoreLayoutAdapter(scoreList)
 
+        scoreRecyclerView.apply {
+            setHasFixedSize(false)
+            layoutManager = viewManager
+            adapter = viewAdapter
+        }
+
         scoreRepository.getScores().observe(this, Observer { scores ->
             scores?.let {
-                scoreList = scores.sortedWith(compareBy({ it.score }, { it.time }, { it.name })).toMutableList()
+                scoreList.clear()
+                scoreList.addAll(scores.sortedWith(compareBy({ it.score }, { it.time }, { it.name })).toMutableList())
 
                 if (scores.size > 50) {
                     scoreRepository.deleteScore(scoreList[0])
                     scoreList.removeAt(0)
                 }
 
+                for (i in scoreList) {
+                    println("name: ${i.name}, score: ${i.score}")
+                }
+
                 viewAdapter.notifyDataSetChanged()
             }
         })
+
+        boardBtn.setOnClickListener {
+            dismiss()
+        }
     }
 
     class ScoreLayoutAdapter(private val myDataset: MutableList<Score>) :
         RecyclerView.Adapter<ScoreLayoutAdapter.MyViewHolder>() {
-        class MyViewHolder(val view: RelativeLayout) : RecyclerView.ViewHolder(view)
+        class MyViewHolder(val view: LinearLayout) : RecyclerView.ViewHolder(view)
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
             val view = LayoutInflater.from(parent.context)
-                .inflate(R.layout.view_score, parent, false) as RelativeLayout
+                .inflate(R.layout.view_score, parent, false) as LinearLayout
             return MyViewHolder(view)
         }
 
         override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-            holder.view.name.text = myDataset[position].name
-            holder.view.score.text = "${myDataset[position].score}"
-            holder.view.time.text = myDataset[position].time.toString()
+            val index = myDataset.size - position - 1
+            holder.view.name.text = myDataset[index].name
+            holder.view.score.text = "${myDataset[index].score}"
+            holder.view.time.text = myDataset[index].time.toString()
         }
 
         override fun getItemCount() = myDataset.size

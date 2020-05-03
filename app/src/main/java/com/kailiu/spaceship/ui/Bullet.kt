@@ -1,7 +1,9 @@
 package com.kailiu.spaceship.ui
 
-import android.content.res.Resources
 import android.graphics.Rect
+import android.media.SoundPool
+import com.kailiu.spaceship.R
+import kotlin.coroutines.coroutineContext
 
 class Bullet(xPos: Int, yPos: Int, height: Int = 20, width: Int = 10) {
     var top = yPos - height

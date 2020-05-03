@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentTransaction
+import androidx.lifecycle.Observer
 import com.kailiu.spaceship.GameActivity
 import com.kailiu.spaceship.DialogCloseListener
 import com.kailiu.spaceship.R
@@ -53,10 +54,17 @@ class GameOverDialog(var width: Int, var height: Int, var pts: Int, var activity
 
         score.text = "$pts"
 
-        leaderboardBtn.setOnClickListener {
+        scoreRepository.getScores().observe(this, Observer { scores ->
+            scores?.let {
+                val list = scores.sortedWith(compareBy({ it.score }, { it.time }, { it.name })).toMutableList()
 
-            val ft: FragmentTransaction = fragmentManager!!.beginTransaction()
-            val prev: Fragment? = fragmentManager!!.findFragmentByTag("dialog")
+                if (pts > list[list.size - 1].score) highscore.visibility = View.VISIBLE
+            }
+        })
+
+        leaderboardBtn.setOnClickListener {
+            val ft: FragmentTransaction = requireFragmentManager().beginTransaction()
+            val prev: Fragment? = requireFragmentManager().findFragmentByTag("dialog")
             if (prev != null) {
                 ft.remove(prev)
             }
@@ -83,10 +91,5 @@ class GameOverDialog(var width: Int, var height: Int, var pts: Int, var activity
         negBtn.setOnClickListener {
             activity.finish()
         }
-    }
-
-    override fun onResume() {
-        super.onResume()
-        gameoverFrame.visibility = View.VISIBLE
     }
 }

@@ -39,6 +39,7 @@ dependencies {
     def androidx_room = "2.2.5"
     def dagger = "2.24"
     def recycler_view = "1.1.0"
+    def androidx_nav = "2.2.2"
     
     api "androidx.room:room-runtime:$androidx_room"
     api "androidx.room:room-ktx:$androidx_room"
@@ -52,4 +53,6 @@ dependencies {
 
     implementation "androidx.recyclerview:recyclerview:$recycler_view"
 
+    implementation "androidx.navigation:navigation-fragment-ktx:$androidx_nav"
+    implementation "androidx.navigation:navigation-ui-ktx:$androidx_nav"
 }

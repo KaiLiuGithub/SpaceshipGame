@@ -18,19 +18,24 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:gravity="center"
-        android:text="HIGH SCORE"
+        android:text="@string/high_scores"
         app:layout_constraintHeight_default="percent"
         app:layout_constraintHeight_percent="0.25"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <include layout="@layout/view_score"
+        app:layout_constraintBottom_toTopOf="@id/scoreRecyclerView"
+        app:layout_constraintStart_toStartOf="@id/scoreRecyclerView"
+        app:layout_constraintEnd_toEndOf="@id/scoreRecyclerView"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/scoreRecyclerView"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         app:layout_constraintHeight_default="percent"
-        app:layout_constraintHeight_percent="0.75"
+        app:layout_constraintHeight_percent="0.5"
         app:layout_constraintTop_toBottomOf="@id/title"
         app:layout_constraintBottom_toBottomOf="@id/guideline_horizontal_75"
         app:layout_constraintStart_toStartOf="parent"
@@ -42,7 +47,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:text="@string/main_menu"
+        android:text="@string/back"
         app:layout_constraintHeight_default="percent"
         app:layout_constraintHeight_percent="0.15"
         app:layout_constraintStart_toStartOf="parent"

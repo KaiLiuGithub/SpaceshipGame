@@ -1,14 +1,27 @@
 package com.kailiu.spaceship.ui
 
+import android.content.Context
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Matrix
 import android.graphics.Rect
+import android.media.SoundPool
 import com.kailiu.spaceship.R
 import com.kailiu.spaceship.ui.pickups.PickupType
 
 class Rocket(var res: Resources) {
+    companion object {
+        private var sound: Int? = null
+        var reset = true
+
+        fun getSound(soundPool: SoundPool, context: Context): Int {
+            sound = if (reset) soundPool.load(context, R.raw.bullet_rocket, 1) else sound
+            reset = false
+            return sound!!
+        }
+    }
+
     var x = 0
     var y = 0
     var health = 1
@@ -28,6 +41,7 @@ class Rocket(var res: Resources) {
     var pickups = MutableList(2) { _ -> false}
 
     init {
+        reset = true
 
         widthR = rocket.width.toDouble() / 25
         heightR = rocket.height.toDouble() / 25

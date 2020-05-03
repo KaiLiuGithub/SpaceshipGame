@@ -30,6 +30,7 @@ class Life(res: Resources): Pickups(res) {
         if (isEmpty == checkEmpty) return else isEmpty = checkEmpty
         val img = if (!checkEmpty)  R.drawable.life else R.drawable.life_empty
 
+
         pickup = BitmapFactory.decodeResource(res, img)
         pickup = Bitmap.createScaledBitmap(pickup, width.toInt(), height.toInt(), false)
     }

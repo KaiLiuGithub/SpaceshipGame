@@ -2,9 +2,11 @@ package com.kailiu.spaceship
 
 import android.content.DialogInterface
 import android.graphics.Point
+import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.view.KeyEvent
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
@@ -21,7 +23,12 @@ class GameActivity: AppCompatActivity() {
     @Inject
     lateinit var scoreRepository: ScoreRepository
 
+    @Inject
+    lateinit var settingsSharedPreferences: SettingsSharedPreferences
+
     lateinit var gameView: GameView
+
+    private lateinit var mediaPlayer: MediaPlayer
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,6 +41,13 @@ class GameActivity: AppCompatActivity() {
         windowManager.defaultDisplay.getSize(point)
 
         gameView = GameView(this, point.x, point.y)
+
+        mediaPlayer = MediaPlayer.create(applicationContext, R.raw.music_brahams)
+        mediaPlayer.setVolume(settingsSharedPreferences.getMusicVolume(), settingsSharedPreferences.getMusicVolume())
+        mediaPlayer.isLooping = true
+        if (settingsSharedPreferences.getMusicVolume() != 0f) {
+            mediaPlayer.start()
+        }
 
         setContentView(gameView)
 
@@ -55,6 +69,8 @@ class GameActivity: AppCompatActivity() {
                     this
                 )
 
+            mediaPlayer.stop()
+
             Handler(Looper.getMainLooper()).post {
                 dialogFragment.show(ft, "dialog_gameover")
             }
@@ -65,12 +81,16 @@ class GameActivity: AppCompatActivity() {
         super.onResume()
 
         gameView.resume()
+        if (settingsSharedPreferences.getMusicVolume() != 0f) {
+            mediaPlayer.start()
+        }
     }
 
     override fun onPause() {
         super.onPause()
 
         gameView.pause()
+        mediaPlayer.pause()
     }
 
     override fun onWindowFocusChanged(hasFocus: Boolean) {
@@ -80,6 +100,12 @@ class GameActivity: AppCompatActivity() {
         } else {
             onPause()
         }
+    }
+
+    override fun onStop() {
+        super.onStop()
+
+        mediaPlayer.stop()
     }
 }
 

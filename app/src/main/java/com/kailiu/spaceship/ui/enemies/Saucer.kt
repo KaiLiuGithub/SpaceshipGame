@@ -1,8 +1,10 @@
 package com.kailiu.spaceship.ui.enemies
 
+import android.content.Context
 import android.content.res.Resources
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.media.SoundPool
 import com.kailiu.spaceship.GameView
 import com.kailiu.spaceship.R
 import com.kailiu.spaceship.ui.hitboxes.Oval

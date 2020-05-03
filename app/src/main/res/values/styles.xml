@@ -14,30 +14,45 @@
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
-    <!-- Title texts -->
-    <style name="Title">
+
+    <!-- Text themes -->
+    <style name="Text">
+        <item name="android:fontFamily">@font/aldrich</item>
+    </style>
+
+    <style name="Text.Settings" parent="Text">
+        <item name="android:textSize">20sp</item>
+        <item name="android:color">@color/settings</item>
+    </style>
+
+    <style name="Text.Leaderboard" parent="Text">
+        <item name="android:textSize">15sp</item>
+        <item name="android:color">@color/score</item>
+    </style>
+
+    <!-- Title text themes-->
+    <style name="Title" parent="Text">
         <item name="android:textSize">40sp</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">0</item>
+        <item name="android:shadowRadius">10</item>
     </style>
 
     <style name="Title.Main" parent="Title">
         <item name="android:textColor">#FFFFFF</item>
-        <item name="android:shadowColor">#000000</item>
-        <item name="android:shadowDx">0</item>
-        <item name="android:shadowDy">0</item>
-        <item name="android:shadowRadius">3</item>
+        <item name="android:shadowColor">#FFFFFF</item>
+        <item name="android:shadowRadius">10</item>
         <item name="android:padding">10sp</item>
+        <item name="android:textSize">50sp</item>
     </style>
 
     <style name="Title.GameOver" parent="Title">
         <item name="android:textColor">#FFFFFF</item>
-        <item name="android:fontFamily">@font/aldrich</item>
         <item name="android:shadowColor">#FF00FF</item>
-        <item name="android:shadowDx">0.0</item>
-        <item name="android:shadowDy">0.0</item>
         <item name="android:shadowRadius">20</item>
-        <item name="android:textSize">40sp</item>
     </style>
 
+    <!-- Edit text themes -->
     <style name="TextBox">
         <item name="android:background">@drawable/textbox</item>
     </style>

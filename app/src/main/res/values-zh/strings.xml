@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">宇宙飞船</string>
+    <string name="menu_start">开始</string>
+    <string name="menu_settings">设置</string>
+    <string name="settings">设置</string>
+    <string name="volume">音量</string>
+    <string name="sound">音效</string>
+    <string name="gameover">游戏结束</string>
+    <string name="hint">名</string>
+    <string name="play_again">重试</string>
+    <string name="main_menu">主页</string>
+    <string name="your_score">你的分数</string>
+    <string name="new_high_score">新纪录！</string>
+    <string name="score_info">分： %1$d</string>
+    <string name="high_scores">高分榜</string>
+    <string name="back">返回</string>
+    <string name="name">名</string>
+    <string name="score">分</string>
+    <string name="time">时间戳</string>
+</resources>

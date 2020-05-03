@@ -1,13 +1,30 @@
 <resources>
-    <string name="app_name">Spaceship</string>
 
-    <string name="menu_start">Start</string>
+    <!-- Main Menu -->
+    <string name="menu_settings">Settings</string>
+
+    <!-- Settings -->
+    <string name="settings">SETTINGS</string>
+    <string name="volume">volume</string>
+    <string name="sound">sound effects</string>
+
+    <!-- Game -->
+    <string name="score_info">score: %1$d</string>
 
     <!-- Game Over Dialog -->
     <string name="gameover">Game Over</string>
     <string name="hint">Name</string>
     <string name="play_again">PLAY AGAIN</string>
     <string name="main_menu">MAIN MENU</string>
-    <string name="score">YOUR SCORE: </string>
-    <string name="high_score">HIGH SCORE!</string>
+    <string name="your_score">YOUR SCORE: </string>
+    <string name="new_high_score">NEW HIGH SCORE!</string>
+    <string name="app_name">Spaceship</string>
+    <string name="menu_start">Start</string>
+
+    <!-- Leaderboard dialog -->
+    <string name="high_scores">HIGH SCORES</string>
+    <string name="back">BACK</string>
+    <string name="name">name</string>
+    <string name="score">score</string>
+    <string name="time">timestamp</string>
 </resources>
