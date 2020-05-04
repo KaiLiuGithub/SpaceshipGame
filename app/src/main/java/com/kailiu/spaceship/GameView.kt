@@ -39,7 +39,14 @@ class GameView(context: Context, var x: Int = 0, var y: Int = 0): SurfaceView(co
     lateinit var thread: Thread
     private var isPlaying = false
     var isGameOver = false
+
     private var paint: Paint
+    private var paintText: Paint
+    private var paintGuidlines: Paint
+    private var paintInfo: Paint
+    private var paintBullets: Paint
+    private var paintEnemyBullets: Paint
+
     private var background1 = Background(x, y, resources)
     private var background2 = Background(x, y, resources)
     private var rocket = Rocket(resources)
@@ -75,6 +82,26 @@ class GameView(context: Context, var x: Int = 0, var y: Int = 0): SurfaceView(co
         background2.y = -y
 
         paint = Paint()
+        paintText = Paint().apply {
+            color = Color.YELLOW
+            textSize = 25f * resources.displayMetrics.density
+        }
+        paintGuidlines = Paint().apply {
+            color = Color.TRANSPARENT
+        }
+        paintInfo = Paint().apply {
+            color = Color.parseColor("#22000000")
+        }
+        paintBullets = Paint().apply {
+            color = Color.MAGENTA
+            strokeWidth = 3f
+            style = Paint.Style.FILL_AND_STROKE
+            shader = LinearGradient(0f, 0f, 0f, 0f, Color.MAGENTA,Color.MAGENTA, Shader.TileMode.MIRROR)
+        }
+        paintEnemyBullets = Paint().apply {
+            color = Color.YELLOW
+            shader = LinearGradient(0f, 0f, 0f, 0f, Color.YELLOW,Color.YELLOW, Shader.TileMode.MIRROR)
+        }
 
         screenRatioX = 1920f / x
         screenRatioY = 1080f / y
@@ -347,21 +374,15 @@ class GameView(context: Context, var x: Int = 0, var y: Int = 0): SurfaceView(co
             canvas.drawBitmap(background2.background, background2.x.toFloat(), background2.y.toFloat(), paint)
 
             // Guide Lines
-            paint.color = Color.TRANSPARENT
-            canvas.drawRect(guideLines[0], paint)
+            canvas.drawRect(guideLines[0], paintGuidlines)
 
-            paint.color = Color.parseColor("#22000000")
-            canvas.drawRect(infoBox, paint)
+            canvas.drawRect(infoBox, paintInfo)
 
             // Bullets
             while (!bulletsSemaphore.tryAcquire()) {}
-            paint.color = Color.MAGENTA
-            paint.strokeWidth = 3f
-            paint.style = Paint.Style.FILL_AND_STROKE
-            paint.shader = LinearGradient(0f, 0f, 0f, 0f, Color.MAGENTA,Color.MAGENTA, Shader.TileMode.MIRROR)
 
             for (bullet in rocket.bullets) {
-                canvas.drawRect(bullet.bullet, paint)
+                canvas.drawRect(bullet.bullet, paintBullets)
             }
             bulletsSemaphore.release()
 
@@ -377,10 +398,8 @@ class GameView(context: Context, var x: Int = 0, var y: Int = 0): SurfaceView(co
             for (enemy in enemies) {
                 canvas.drawBitmap(enemy.enemy, enemy.x.toFloat(), enemy.y.toFloat(), paint)
                 for (bullet in enemy.bullets) {
-                    paint.color = Color.YELLOW
-                    paint.shader = LinearGradient(0f, 0f, 0f, 0f, Color.YELLOW,Color.YELLOW, Shader.TileMode.MIRROR)
                     val r = (bullet.right - bullet.left) / 2f
-                    canvas.drawCircle(bullet.left + r, bullet.top  + r, r, paint)
+                    canvas.drawCircle(bullet.left + r, bullet.top  + r, r, paintEnemyBullets)
                 }
             }
             enemiesSemaphore.release()
@@ -403,11 +422,8 @@ class GameView(context: Context, var x: Int = 0, var y: Int = 0): SurfaceView(co
 
 
             // Info
-            paint.shader = LinearGradient(0f, 0f, 0f, 0f, Color.YELLOW, Color.YELLOW, Shader.TileMode.CLAMP)
-            paint.textSize = 25f * resources.displayMetrics.density
-
-            var str = resources.getString(R.string.score_info, score)
-            canvas.drawText(str, (x - paint.measureText(str)) / 2f, infoBox.exactCenterY(), paint)
+            val str = resources.getString(R.string.score_info, score)
+            canvas.drawText(str, (x - paint.measureText(str)) / 2f, infoBox.exactCenterY(), paintText)
 
             while (!infoSemaphore.tryAcquire()) {}
             canvas.drawBitmap(info[0].pickup, info[0].x.toFloat(), info[0].y.toFloat(), paint)

@@ -20,14 +20,23 @@
         <item name="android:fontFamily">@font/aldrich</item>
     </style>
 
+    <style name="Text.MainMenu" parent="Text">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/menu_item</item>
+        <item name="android:shadowDx">0</item>
+        <item name="android:shadowDy">0</item>
+        <item name="android:shadowRadius">20</item>
+        <item name="android:shadowColor">#000000</item>
+    </style>
+
     <style name="Text.Settings" parent="Text">
         <item name="android:textSize">20sp</item>
-        <item name="android:color">@color/settings</item>
+        <item name="android:textColor">@color/settings</item>
     </style>
 
     <style name="Text.Leaderboard" parent="Text">
         <item name="android:textSize">15sp</item>
-        <item name="android:color">@color/score</item>
+        <item name="android:textColor">@color/score</item>
     </style>
 
     <!-- Title text themes-->
@@ -36,6 +45,7 @@
         <item name="android:shadowDx">0</item>
         <item name="android:shadowDy">0</item>
         <item name="android:shadowRadius">10</item>
+        <item name="android:textColor">@color/settings</item>
     </style>
 
     <style name="Title.Main" parent="Title">

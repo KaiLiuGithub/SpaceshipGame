@@ -12,6 +12,14 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.75" />
 
+    <ImageView
+        android:id="@+id/leaderboardBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/background"
+        android:scaleType="centerCrop"
+        android:visibility="gone"/>
+
     <TextView
         android:id="@+id/title"
         style="@style/Title.GameOver"
@@ -29,6 +37,18 @@
         app:layout_constraintBottom_toTopOf="@id/scoreRecyclerView"
         app:layout_constraintStart_toStartOf="@id/scoreRecyclerView"
         app:layout_constraintEnd_toEndOf="@id/scoreRecyclerView"/>
+
+    <TextView
+        style="@style/Text.Leaderboard"
+        android:id="@+id/noScores"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/no_scores"
+        android:visibility="gone"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        app:layout_constraintBottom_toBottomOf="@id/guideline_horizontal_75"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/scoreRecyclerView"

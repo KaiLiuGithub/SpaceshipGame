@@ -24,9 +24,9 @@ class Rocket(var res: Resources) {
 
     var x = 0
     var y = 0
-    var health = 1
-    var widthF: Double
-    var heightF: Double
+    var health = 3
+    private var widthF: Double
+    private var heightF: Double
     private var widthR: Double
     private var heightR: Double
     var width: Double

@@ -2,7 +2,22 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_menu_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.15" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_menu_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.85" />
 
     <ImageView
         android:layout_width="match_parent"
@@ -17,27 +32,265 @@
         android:layout_height="wrap_content"
         android:text="@string/app_name"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/startBtn"
+        app:layout_constraintBottom_toTopOf="@id/menuList"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
-    <Button
-        android:id="@+id/startBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/menu_start"
+
+    <HorizontalScrollView
+        android:id="@+id/menuList"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:animateLayoutChanges="true"
+        android:requiresFadingEdge="horizontal"
+        android:fadingEdge="horizontal"
+        android:fadingEdgeLength="100dp"
+        android:scrollbars="none"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.2"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent="0.75"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintStart_toStartOf="@id/guideline_menu_start"
+        app:layout_constraintEnd_toEndOf="@id/guideline_menu_end">
 
-    <Button
-        android:id="@+id/settingsBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/menu_settings"
-        app:layout_constraintTop_toBottomOf="@id/startBtn"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:layout_gravity="center_vertical">
 
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_margin="5dp"
+                    app:layout_constraintHeight_default="percent"
+                    app:layout_constraintHeight_percent="0.905"
+                    app:layout_constraintWidth_default="percent"
+                    app:layout_constraintWidth_percent="0.905"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/startBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+                <TextView
+                    style="@style/Text.MainMenu"
+                    android:id="@+id/startBackground"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/ic_menu_button"
+                    app:layout_constraintWidth_default="percent"
+                    app:layout_constraintWidth_percent="0.905"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+
+                <TextView
+                    style="@style/Text.MainMenu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:text="@string/menu_start"
+                    android:gravity="center"
+                    app:layout_constraintHeight_default="percent"
+                    app:layout_constraintHeight_percent="0.9"
+                    app:layout_constraintTop_toBottomOf="@id/startBackground"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:src="@drawable/ic_start"
+                    app:layout_constraintHeight_default="percent"
+                    app:layout_constraintHeight_percent="0.5"
+                    app:layout_constraintWidth_default="percent"
+                    app:layout_constraintWidth_percent="0.5"
+                    app:layout_constraintTop_toTopOf="@id/startBackground"
+                    app:layout_constraintBottom_toBottomOf="@id/startBackground"
+                    app:layout_constraintStart_toStartOf="@id/startBackground"
+                    app:layout_constraintEnd_toEndOf="@id/startBackground"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/settingsBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+                <TextView
+                    style="@style/Text.MainMenu"
+                    android:id="@+id/settingsBackground"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/ic_menu_button"
+                    app:layout_constraintWidth_default="percent"
+                    app:layout_constraintWidth_percent="0.905"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+
+                <TextView
+                    style="@style/Text.MainMenu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:text="@string/menu_settings"
+                    android:gravity="center"
+                    app:layout_constraintHeight_default="percent"
+                    app:layout_constraintHeight_percent="0.9"
+                    app:layout_constraintTop_toBottomOf="@id/settingsBackground"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:src="@drawable/ic_settings"
+                    app:layout_constraintHeight_default="percent"
+                    app:layout_constraintHeight_percent="0.5"
+                    app:layout_constraintWidth_default="percent"
+                    app:layout_constraintWidth_percent="0.5"
+                    app:layout_constraintTop_toTopOf="@id/settingsBackground"
+                    app:layout_constraintBottom_toBottomOf="@id/settingsBackground"
+                    app:layout_constraintStart_toStartOf="@id/settingsBackground"
+                    app:layout_constraintEnd_toEndOf="@id/settingsBackground"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/leaderBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+                <TextView
+                    style="@style/Text.MainMenu"
+                    android:id="@+id/leaderboardBackground"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_margin="5dp"
+                    android:shadowColor="#FFFFFF"
+                    android:background="@drawable/ic_menu_button"
+                    app:layout_constraintWidth_default="percent"
+                    app:layout_constraintWidth_percent="0.905"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+
+                <TextView
+                    style="@style/Text.MainMenu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:text="@string/menu_leaderboard"
+                    android:gravity="center"
+                    app:layout_constraintHeight_default="percent"
+                    app:layout_constraintHeight_percent="0.9"
+                    app:layout_constraintTop_toBottomOf="@id/leaderboardBackground"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:src="@drawable/ic_leaderboard"
+                    app:layout_constraintHeight_default="percent"
+                    app:layout_constraintHeight_percent="0.5"
+                    app:layout_constraintWidth_default="percent"
+                    app:layout_constraintWidth_percent="0.5"
+                    app:layout_constraintTop_toTopOf="@id/leaderboardBackground"
+                    app:layout_constraintBottom_toBottomOf="@id/leaderboardBackground"
+                    app:layout_constraintStart_toStartOf="@id/leaderboardBackground"
+                    app:layout_constraintEnd_toEndOf="@id/leaderboardBackground"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/infoBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+                <TextView
+                    style="@style/Text.MainMenu"
+                    android:id="@+id/helpBackground"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/ic_menu_button"
+                    app:layout_constraintWidth_default="percent"
+                    app:layout_constraintWidth_percent="0.905"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+
+                <TextView
+                    style="@style/Text.MainMenu"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:text="@string/menu_help"
+                    android:gravity="center"
+                    app:layout_constraintHeight_default="percent"
+                    app:layout_constraintHeight_percent="0.9"
+                    app:layout_constraintWidth_default="percent"
+                    app:layout_constraintWidth_percent="0.905"
+                    app:layout_constraintTop_toBottomOf="@id/helpBackground"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:src="@drawable/ic_help"
+                    app:layout_constraintHeight_default="percent"
+                    app:layout_constraintHeight_percent="0.5"
+                    app:layout_constraintWidth_default="percent"
+                    app:layout_constraintWidth_percent="0.5"
+                    app:layout_constraintTop_toTopOf="@id/helpBackground"
+                    app:layout_constraintBottom_toBottomOf="@id/helpBackground"
+                    app:layout_constraintStart_toStartOf="@id/helpBackground"
+                    app:layout_constraintEnd_toEndOf="@id/helpBackground"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_margin="5dp"
+                    app:layout_constraintHeight_default="percent"
+                    app:layout_constraintHeight_percent="0.905"
+                    app:layout_constraintWidth_default="percent"
+                    app:layout_constraintWidth_percent="0.905"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+    </HorizontalScrollView>
 </androidx.constraintlayout.widget.ConstraintLayout>

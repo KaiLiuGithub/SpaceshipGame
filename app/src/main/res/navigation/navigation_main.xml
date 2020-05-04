@@ -11,24 +11,39 @@
 
     <fragment
         android:id="@+id/mainFragment"
-        android:name="com.kailiu.spaceship.MainFragment"
-        android:label="SmartOnBoardingListFragment"
+        android:name="com.kailiu.spaceship.fragments.MainFragment"
+        android:label="MainFragment"
         tools:layout="@layout/fragment_main">
 
         <action
             android:id="@+id/action_mainFragment_to_settingsFragment"
             app:destination="@id/settingsFragment" />
 
+        <action
+            android:id="@+id/action_mainFragment_to_leaderboardFramgent"
+            app:destination="@id/leaderboardFragment" />
+
     </fragment>
 
     <fragment
         android:id="@+id/settingsFragment"
-        android:name="com.kailiu.spaceship.SettingsFragment"
-        android:label="LoginFragment"
+        android:name="com.kailiu.spaceship.fragments.SettingsFragment"
+        android:label="SettingsFragment"
         tools:layout="@layout/fragment_settings">
 
         <action
             android:id="@+id/action_settingsFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/leaderboardFragment"
+        android:name="com.kailiu.spaceship.fragments.LeaderboardFragment"
+        android:label="LeaderboardFragment"
+        tools:layout="@layout/dialog_leaderboard">
+
+        <action
+            android:id="@+id/action_leaderboardFramgent_to_mainFragment"
             app:destination="@id/mainFragment" />
     </fragment>
 

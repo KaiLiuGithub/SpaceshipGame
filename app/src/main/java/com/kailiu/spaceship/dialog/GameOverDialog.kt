@@ -58,7 +58,11 @@ class GameOverDialog(var width: Int, var height: Int, var pts: Int, var activity
             scores?.let {
                 val list = scores.sortedWith(compareBy({ it.score }, { it.time }, { it.name })).toMutableList()
 
-                if (pts > list[list.size - 1].score) highscore.visibility = View.VISIBLE
+                if (list.size > 0) {
+                    if (pts > list[list.size - 1].score) highscore.visibility = View.VISIBLE
+                } else {
+                    highscore.visibility = View.VISIBLE
+                }
             }
         })
 

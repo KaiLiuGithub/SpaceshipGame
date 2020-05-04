@@ -81,10 +81,8 @@ class LeaderboardDialog(var width: Int, var height: Int, var activity: Activity)
                 if (scores.size > 50) {
                     scoreRepository.deleteScore(scoreList[0])
                     scoreList.removeAt(0)
-                }
-
-                for (i in scoreList) {
-                    println("name: ${i.name}, score: ${i.score}")
+                } else if (scores.isEmpty()) {
+                    noScores.visibility = View.VISIBLE
                 }
 
                 viewAdapter.notifyDataSetChanged()

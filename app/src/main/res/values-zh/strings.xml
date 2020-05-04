@@ -18,4 +18,7 @@
     <string name="name">名</string>
     <string name="score">分</string>
     <string name="time">时间戳</string>
+    <string name="menu_leaderboard">高分榜</string>
+    <string name="menu_help">玩法</string>
+    <string name="no_scores">没有成绩！</string>
 </resources>

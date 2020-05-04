@@ -6,9 +6,12 @@
 
     <color name="transparent">#00000000</color>
 
+    <color name="dialog">#11FFFFFF</color>
+
     <color name="button_border">#B0B0B0</color>
     <color name="button_text">#ADD8E6</color>
     <color name="score">#FFEA00</color>
+    <color name="menu_item">#EECA88</color>
     <color name="settings">#F27DFD</color>
 
     <color name="red">#FF0000</color>

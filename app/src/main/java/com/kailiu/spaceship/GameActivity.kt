@@ -6,7 +6,6 @@ import android.media.MediaPlayer
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.view.KeyEvent
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.DialogFragment
@@ -16,6 +15,7 @@ import com.kailiu.spaceship.database.ScoreRepository
 import com.kailiu.spaceship.dialog.GameOverDialog
 import javax.inject.Inject
 import kotlin.concurrent.thread
+import kotlin.math.ln
 
 
 class GameActivity: AppCompatActivity() {
@@ -43,7 +43,8 @@ class GameActivity: AppCompatActivity() {
         gameView = GameView(this, point.x, point.y)
 
         mediaPlayer = MediaPlayer.create(applicationContext, R.raw.music_brahams)
-        mediaPlayer.setVolume(settingsSharedPreferences.getMusicVolume(), settingsSharedPreferences.getMusicVolume())
+        val volume = ln(settingsSharedPreferences.getMusicVolume() / 100f)
+        mediaPlayer.setVolume(volume, volume)
         mediaPlayer.isLooping = true
         if (settingsSharedPreferences.getMusicVolume() != 0f) {
             mediaPlayer.start()
@@ -104,6 +105,12 @@ class GameActivity: AppCompatActivity() {
 
     override fun onStop() {
         super.onStop()
+
+        mediaPlayer.stop()
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
 
         mediaPlayer.stop()
     }
