@@ -21,19 +21,40 @@
         android:visibility="gone"/>
 
     <TextView
-        android:id="@+id/title"
         style="@style/Title.GameOver"
+        android:id="@+id/title"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:gravity="center"
         android:text="@string/high_scores"
         app:layout_constraintHeight_default="percent"
-        app:layout_constraintHeight_percent="0.25"
+        app:layout_constraintHeight_percent="0.20"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
+    <TextView
+        style="@style/Button.Tab"
+        android:id="@+id/localTab"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/local"
+        app:layout_constraintBottom_toTopOf="@id/scoreRecyclerView"
+        app:layout_constraintEnd_toStartOf="@id/globalTab"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        style="@style/Button.Tab"
+        android:id="@+id/globalTab"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/global"
+        app:layout_constraintBottom_toTopOf="@id/scoreRecyclerView"
+        app:layout_constraintStart_toEndOf="@id/localTab"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
     <include layout="@layout/view_score"
+        android:id="@+id/headers"
         app:layout_constraintBottom_toTopOf="@id/scoreRecyclerView"
         app:layout_constraintStart_toStartOf="@id/scoreRecyclerView"
         app:layout_constraintEnd_toEndOf="@id/scoreRecyclerView"/>
@@ -45,7 +66,7 @@
         android:layout_height="wrap_content"
         android:text="@string/no_scores"
         android:visibility="gone"
-        app:layout_constraintTop_toBottomOf="@id/title"
+        app:layout_constraintTop_toBottomOf="@id/localTab"
         app:layout_constraintBottom_toBottomOf="@id/guideline_horizontal_75"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>

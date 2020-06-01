@@ -37,7 +37,6 @@ abstract class ScoreDatabase: RoomDatabase() {
     }
 
     fun addScore(score: Score) {
-        println("add db ${score.name} ${score.score}")
         scoreDao().addScore(score)
     }
 

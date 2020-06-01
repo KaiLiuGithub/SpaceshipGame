@@ -2,10 +2,8 @@ package com.kailiu.spaceship
 
 import android.content.Context
 import android.graphics.*
-import android.media.AudioAttributes
-import android.media.MediaPlayer
+import android.media.AudioManager
 import android.media.SoundPool
-import android.view.KeyEvent
 import android.view.MotionEvent
 import android.view.SurfaceView
 import com.kailiu.spaceship.ui.Background
@@ -13,6 +11,8 @@ import com.kailiu.spaceship.ui.Bullet
 import com.kailiu.spaceship.ui.Rocket
 import com.kailiu.spaceship.ui.enemies.Asteroid
 import com.kailiu.spaceship.ui.enemies.Enemy
+import com.kailiu.spaceship.ui.enemies.Satellite
+import com.kailiu.spaceship.ui.enemies.Saucer
 import com.kailiu.spaceship.ui.pickups.Ammo
 import com.kailiu.spaceship.ui.pickups.Life
 import com.kailiu.spaceship.ui.pickups.Pickups
@@ -40,6 +40,11 @@ class GameView(context: Context, var x: Int = 0, var y: Int = 0): SurfaceView(co
     private var isPlaying = false
     var isGameOver = false
 
+    private var isShooting = false
+    private var frames = 0
+    private var shootingFrames = 0
+    private var enemyTotal = 0
+
     private var paint: Paint
     private var paintText: Paint
     private var paintGuidlines: Paint
@@ -62,10 +67,6 @@ class GameView(context: Context, var x: Int = 0, var y: Int = 0): SurfaceView(co
 
     private var guideLines = ArrayList<Rect>()
     private var infoBox: Rect
-    
-    private var isShooting = false
-    private var frames = 0
-    private var shootingFrames = 0
 
     private var soundPool: SoundPool? = null
 
@@ -96,11 +97,15 @@ class GameView(context: Context, var x: Int = 0, var y: Int = 0): SurfaceView(co
             color = Color.MAGENTA
             strokeWidth = 3f
             style = Paint.Style.FILL_AND_STROKE
-            shader = LinearGradient(0f, 0f, 0f, 0f, Color.MAGENTA,Color.MAGENTA, Shader.TileMode.MIRROR)
+            shader = LinearGradient(0f, 0f, 0f, 0f, Color.MAGENTA, Color.MAGENTA, Shader.TileMode.MIRROR)
         }
+        val colors = arrayOf(Color.YELLOW, Color.RED, Color.YELLOW).toIntArray()
+        val positions = arrayOf(0f, 0.3f, 0.6f).toFloatArray()
         paintEnemyBullets = Paint().apply {
             color = Color.YELLOW
-            shader = LinearGradient(0f, 0f, 0f, 0f, Color.YELLOW,Color.YELLOW, Shader.TileMode.MIRROR)
+            strokeWidth = 3f
+            style = Paint.Style.FILL_AND_STROKE
+            shader = LinearGradient(0f, 0f, 0f, 0f, colors, positions, Shader.TileMode.CLAMP)
         }
 
         screenRatioX = 1920f / x
@@ -108,48 +113,46 @@ class GameView(context: Context, var x: Int = 0, var y: Int = 0): SurfaceView(co
 
         rocket.resetPosition(x, y)
 
-        val audioAttributes = AudioAttributes.Builder()
-            .setContentType(AudioAttributes.CONTENT_TYPE_MUSIC)
-            .setUsage(AudioAttributes.USAGE_GAME)
-            .build()
+        soundPool = SoundPool(12, AudioManager.STREAM_MUSIC, 0)
 
-        soundPool = SoundPool.Builder()
-            .setAudioAttributes(audioAttributes)
-            .build()
+        Enemy.getSound(soundPool!!, context, false)
+        Rocket.getSound(soundPool!!, context)
 
         for (i in 0 until 6) {
-            val enemy = Asteroid(resources)
+            //val enemy = Asteroid(resources)
+            val enemy = Satellite(resources)
             enemy.x = Random.nextInt(0, x - enemy.width.toInt())
             enemy.y -= enemy.height.toInt()
             enemies.add(enemy)
+            enemyTotal++
         }
 
         info.add(Life(resources).apply {
-            this.x = Companion.INFO_OFFSET
-            this.y = Companion.INFO_OFFSET
+            this.x = INFO_OFFSET
+            this.y = INFO_OFFSET
         })
         info.add(Life(resources).apply {
-            this.x = Companion.INFO_OFFSET + Companion.INFO_OFFSET / 2 + this.width.toInt()
-            this.y = Companion.INFO_OFFSET
+            this.x = INFO_OFFSET + INFO_OFFSET / 2 + this.width.toInt()
+            this.y = INFO_OFFSET
         })
         info.add(Life(resources).apply {
-            this.x = Companion.INFO_OFFSET + Companion.INFO_OFFSET + 2 * this.width.toInt()
-            this.y = Companion.INFO_OFFSET
+            this.x = INFO_OFFSET + INFO_OFFSET + 2 * this.width.toInt()
+            this.y = INFO_OFFSET
         })
         info.add(Shield(resources).apply {
-            this.x = this@GameView.x - 2 * this.width.toInt() - Companion.INFO_OFFSET
-            this.y = Companion.INFO_OFFSET
+            this.x = this@GameView.x - 2 * this.width.toInt() - INFO_OFFSET
+            this.y = INFO_OFFSET
         })
         info.add(Ammo(resources).apply {
-            this.x = this@GameView.x - this.width.toInt() - Companion.INFO_OFFSET
-            this.y = Companion.INFO_OFFSET
+            this.x = this@GameView.x - this.width.toInt() - INFO_OFFSET
+            this.y = INFO_OFFSET
         })
 
         guideLines.add(Rect(0, 0, x, 5))
 
         infoBox = Rect(
-            Companion.INFO_OFFSET,
-            Companion.INFO_OFFSET, x, info[0].height.toInt() + Companion.INFO_OFFSET
+            INFO_OFFSET,
+            INFO_OFFSET, x, info[0].height.toInt() + INFO_OFFSET
         )
     }
 
@@ -179,17 +182,19 @@ class GameView(context: Context, var x: Int = 0, var y: Int = 0): SurfaceView(co
             var i = 0
             val bullets = rocket.bullets
             while (i in 0 until bullets.size) {
-                if (Rect.intersects(bullets[i].bullet, guideLines[0])) {
+                if (Rect.intersects(bullets[i].getCollisionShape(), guideLines[0])) {
                     bullets.removeAt(i)
                 } else {
                     bullets[i].move()
                     var j = 0
                     while (j < enemies.size) {
-                        if (enemies[j].getCollisionShape().intersects(bullets[i].bullet)) {
+                        if (enemies[j].getCollisionShape().intersects(bullets[i].getCollisionShape())) {
                             enemies[j].hp--
-                            if (enemies[j].hp <= 0) enemies.removeAt(j)
+                            if (enemies[j].hp <= 0) {
+                                enemies.removeAt(j)
+                                score++
+                            }
                             bullets.removeAt(i)
-                            score++
                             i--
                             break
                         }
@@ -212,6 +217,7 @@ class GameView(context: Context, var x: Int = 0, var y: Int = 0): SurfaceView(co
                 val index = Random.nextInt(0, 5)
                 enemies.add(enemies[index])
                 val enemy = Enemy.generateEnemy(resources)
+                enemyTotal++
                 enemy.x = Random.nextInt(0, x - enemy.width.toInt())
                 enemy.y -= enemy.height.toInt()
                 enemies[index] = enemy
@@ -229,47 +235,38 @@ class GameView(context: Context, var x: Int = 0, var y: Int = 0): SurfaceView(co
                             if (rocket.pickups[1]) {
                                 rocket.pickups[1] = false
                             }
-                            rocket.health--
+                            rocket.editHealth(frames, false)
                         }
                     }
                 } else {
                     enemies[i].move(frame = frames, fieldW = x)
                     enemies[i].animate(frames)
                     if (enemies[i].bullets.size < enemies[i].maxBullets) {
-                        if (frames % Companion.BULLET_FRAMES == 0) {
-                            enemies[i].bullets.add(
-                                Bullet(
-                                    enemies[i].x + enemies[i].height.toInt() / 2,
-                                    enemies[i].y + enemies[i].height.toInt(),
-                                    15,
-                                    15
-                                )
-                            )
-                            if (settingsSharedPreferences.getSoundEffects()) {
-                                soundPool?.play(Enemy.getSound(soundPool!!, context), 1f, 1f, 0, 0, 1f);
-                            }
+
+                        if (enemies[i].addBullet(frames, y) && settingsSharedPreferences.getSoundEffects()) {
+                            soundPool?.play(Enemy.getSound(soundPool!!, context, enemies[i] is Saucer), 1f, 1f, 0, 0, 1f)
                         }
                     }
                     var j = 0
                     while (j in 0 until enemies[i].bullets.size) {
-                        if (Rect.intersects(
-                                enemies[i].bullets[j].bullet,
-                                rocket.getCollisionShape()
-                            )
-                        ) {
+                        if (enemies.size <= i) break
+                        if (Rect.intersects(enemies[i].bullets[j].bullet, rocket.getCollisionShape())) {
                             if (rocket.pickups[0]) {
                                 rocket.pickups[0] = false
                             } else {
                                 if (rocket.pickups[1]) {
                                     rocket.pickups[1] = false
                                 }
-                                rocket.health--
+                                rocket.editHealth(frames, false)
                             }
                             enemies[i].bullets.removeAt(j)
                             j--
                         } else {
-                            enemies[i].bullets[j].move(isRocket = false)
-                            j++
+                            if (!enemies[i].bullets[j].move(isRocket = false, frame = frames)) {
+                                enemies[i].bullets.removeAt(j)
+                            } else {
+                                j++
+                            }
                         }
                     }
                     i++
@@ -297,7 +294,7 @@ class GameView(context: Context, var x: Int = 0, var y: Int = 0): SurfaceView(co
                         when (pickups[0]) {
                             is Shield -> rocket.pickups[0] = true
                             is Ammo -> rocket.pickups[1] = true
-                            else -> if (rocket.health < 3) rocket.health++
+                            else -> if (rocket.health < 3) rocket.editHealth()
                         }
                     }
                     pickups.removeAt(0)
@@ -310,7 +307,7 @@ class GameView(context: Context, var x: Int = 0, var y: Int = 0): SurfaceView(co
         thread {
             while (!rocketSemaphore.tryAcquire()) {}
             if (isShooting) {
-                if (shootingFrames % 15 == 0) {
+                if (shootingFrames % 7 == 0) {
                     if (rocket.pickups[1]) {
                         rocket.bullets.add(
                             Bullet(
@@ -333,7 +330,7 @@ class GameView(context: Context, var x: Int = 0, var y: Int = 0): SurfaceView(co
                         )
                     }
                     if (settingsSharedPreferences.getSoundEffects()) {
-                        soundPool?.play(Rocket.getSound(soundPool!!, context), 1f, 1f, 0, 0, 1f);
+                        soundPool?.play(Rocket.getSound(soundPool!!, context), 1f, 1f, 0, 0, 1f)
                     }
                 }
                 shootingFrames++
@@ -399,7 +396,7 @@ class GameView(context: Context, var x: Int = 0, var y: Int = 0): SurfaceView(co
                 canvas.drawBitmap(enemy.enemy, enemy.x.toFloat(), enemy.y.toFloat(), paint)
                 for (bullet in enemy.bullets) {
                     val r = (bullet.right - bullet.left) / 2f
-                    canvas.drawCircle(bullet.left + r, bullet.top  + r, r, paintEnemyBullets)
+                    canvas.drawRect(bullet.bullet, paintEnemyBullets)
                 }
             }
             enemiesSemaphore.release()
@@ -475,7 +472,6 @@ class GameView(context: Context, var x: Int = 0, var y: Int = 0): SurfaceView(co
             }
             MotionEvent.ACTION_UP -> {
                 isShooting = false
-                shootingFrames = 0
             }
         }
         return true

@@ -49,6 +49,34 @@ class LeaderboardFragment: Fragment() {
         leaderboardBackground.visibility = View.VISIBLE
         scoreRecyclerView.setBackgroundDrawable(ColorDrawable(Color.parseColor("#44000000")))
 
+        getLocalScores()
+
+        localTab.isSelected = true
+        globalTab.isSelected = false
+
+        localTab.setOnClickListener {
+            localTab.isSelected = true
+            globalTab.isSelected = false
+            getLocalScores()
+        }
+
+        globalTab.setOnClickListener {
+            localTab.isSelected = false
+            globalTab.isSelected = true
+        }
+
+        scoreRecyclerView.apply {
+            setHasFixedSize(false)
+            layoutManager = viewManager
+            adapter = viewAdapter
+        }
+
+        boardBtn.setOnClickListener {
+            navController.navigate(R.id.action_leaderboardFragment_to_mainFragment)
+        }
+    }
+
+    fun getLocalScores() {
         scoreRepository.getScores().observe(viewLifecycleOwner, Observer { scores ->
             scores?.let {
                 scoreList.clear()
@@ -64,15 +92,5 @@ class LeaderboardFragment: Fragment() {
                 viewAdapter.notifyDataSetChanged()
             }
         })
-
-        scoreRecyclerView.apply {
-            setHasFixedSize(false)
-            layoutManager = viewManager
-            adapter = viewAdapter
-        }
-
-        boardBtn.setOnClickListener {
-            navController.navigate(R.id.action_leaderboardFramgent_to_mainFragment)
-        }
     }
 }

@@ -21,4 +21,27 @@
     <string name="menu_leaderboard">高分榜</string>
     <string name="menu_help">玩法</string>
     <string name="no_scores">没有成绩！</string>
+    <string name="enemies">敌方</string>
+    <string name="local">当地</string>
+    <string name="global">世界</string>
+    <string name="menu_profile">登录/注册</string>
+    <string name="login">登录</string>
+    <string name="signup">注册</string>
+    <string name="prompt_login">已有账号？</string>
+    <string name="prompt_signup">没有账号</string>
+    <string name="to_login">登录</string>
+    <string name="to_signup">注册</string>
+    <string name="username">用户名</string>
+    <string name="password">密码</string>
+    <string name="help">游戏玩法</string>
+    <string name="enemies_blurb">被敌方打到会导致玩家牺牲一颗心</string>
+    <string name="enemies_passive">这些敌方会从上往下移动 （有些会左右移动）</string>
+    <string name="enemies_active">这些敌方会冲着玩家开枪</string>
+    <string name="powerups">強化物品</string>
+    <string name="powerups_shield">盾牌将会在玩家前实现。可以避免一次丢心。</string>
+    <string name="powerups_ammo">玩家从一颗子弹升级到同时射两颗子弹。</string>
+    <string name="powerups_heart">玩家可以恢复一颗心 （最多三颗心）。</string>
+    <string name="controls">控制</string>
+    <string name="controls_shoot">触摸屏幕任何地方会让火箭开枪</string>
+    <string name="controls_move">触摸火箭左边或右边的屏幕会让火箭慢慢往那一边移动</string>
 </resources>

@@ -20,9 +20,16 @@
             app:destination="@id/settingsFragment" />
 
         <action
-            android:id="@+id/action_mainFragment_to_leaderboardFramgent"
+            android:id="@+id/action_mainFragment_to_leaderboardFragment"
             app:destination="@id/leaderboardFragment" />
 
+        <action
+            android:id="@+id/action_mainFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+
+        <action
+            android:id="@+id/action_mainFragment_to_helpFragment"
+            app:destination="@id/helpFragment" />
     </fragment>
 
     <fragment
@@ -43,7 +50,46 @@
         tools:layout="@layout/dialog_leaderboard">
 
         <action
-            android:id="@+id/action_leaderboardFramgent_to_mainFragment"
+            android:id="@+id/action_leaderboardFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.kailiu.spaceship.fragments.LoginFragment"
+        android:label="LoginFragment"
+        tools:layout="@layout/fragment_login">
+        <action
+            android:id="@+id/action_loginFragment_to_signupFragment"
+            app:destination="@id/signupFragment" />
+
+        <action
+            android:id="@+id/action_loginFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/signupFragment"
+        android:name="com.kailiu.spaceship.fragments.SignupFragment"
+        android:label="SignupFragment"
+        tools:layout="@layout/fragment_signup">
+        <action
+            android:id="@+id/action_singupFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+
+        <action
+            android:id="@+id/action_singupFragment_to_mainFragment"
+            app:destination="@id/mainFragment" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/helpFragment"
+        android:name="com.kailiu.spaceship.fragments.HelpFragment"
+        android:label="HelpFragment"
+        tools:layout="@layout/fragment_help">
+
+        <action
+            android:id="@+id/action_helpFragment_to_mainFragment"
             app:destination="@id/mainFragment" />
     </fragment>
 

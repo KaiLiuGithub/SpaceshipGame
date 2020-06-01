@@ -10,7 +10,7 @@ import kotlin.random.Random
 
 class Alien(res: Resources): Enemy(res) {
     init {
-        hp = 5
+        hp = 3
 
         val img = when (Random.nextInt(0, 3)) {
             0 -> R.drawable.alien
@@ -23,8 +23,8 @@ class Alien(res: Resources): Enemy(res) {
         width = enemy.width.toDouble()
         height = enemy.height.toDouble()
 
-        width /= IMAGE_SCALE
-        height /= IMAGE_SCALE
+        width /= SMALL_IMAGE_SCALE
+        height /= SMALL_IMAGE_SCALE
 
         width *= GameView.screenRatioX
         height *= GameView.screenRatioX

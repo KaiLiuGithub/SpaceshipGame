@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_username_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.25" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_password_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.4" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_login_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.6" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_to_signup_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.7" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_margin_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.05" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline_margin_end"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.95" />
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/background"
+        android:scaleType="centerCrop"/>
+
+    <TextView
+        style="@style/Title.Main"
+        android:id="@+id/loginTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/login"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="@id/guideline_margin_start"
+        app:layout_constraintEnd_toEndOf="@id/guideline_margin_end"/>
+
+    <TextView
+        style="@style/Text.Login"
+        android:id="@+id/usernameLoginHint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/username"
+        app:layout_constraintTop_toBottomOf="@id/guideline_username_top"
+        app:layout_constraintStart_toStartOf="@id/guideline_margin_start"/>
+
+    <FrameLayout
+        style="@style/TextBox"
+        android:id="@+id/usernameLoginFrame"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        app:layout_constraintTop_toBottomOf="@id/usernameLoginHint"
+        app:layout_constraintStart_toStartOf="@id/guideline_margin_start"
+        app:layout_constraintEnd_toEndOf="@id/guideline_margin_end">
+
+        <EditText
+            style="@style/TextBox"
+            android:id="@+id/usernameLoginField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:gravity="start"
+            android:maxLines="1"
+            android:maxLength="10"
+            android:background="@null"/>
+    </FrameLayout>
+
+    <TextView
+        style="@style/Text.Login"
+        android:id="@+id/passwordLoginHint"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/password"
+        app:layout_constraintTop_toBottomOf="@id/guideline_password_top"
+        app:layout_constraintStart_toStartOf="@id/guideline_margin_start"/>
+
+    <FrameLayout
+        style="@style/TextBox"
+        android:id="@+id/passwordLoginFrame"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        app:layout_constraintTop_toBottomOf="@id/passwordLoginHint"
+        app:layout_constraintStart_toStartOf="@id/guideline_margin_start"
+        app:layout_constraintEnd_toEndOf="@id/guideline_margin_end">
+
+        <EditText
+            style="@style/TextBox"
+            android:id="@+id/passwordLoginField"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:inputType="textPassword"
+            android:gravity="start"
+            android:maxLines="1"
+            android:maxLength="10"
+            android:background="@null"/>
+    </FrameLayout>
+
+    <TextView
+        style="@style/Button.Dialog"
+        android:id="@+id/loginBtn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/login"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent="0.65"
+        app:layout_constraintTop_toBottomOf="@id/guideline_login_top"
+        app:layout_constraintStart_toStartOf="@id/guideline_margin_start"
+        app:layout_constraintEnd_toEndOf="@id/guideline_margin_end"/>
+
+    <TextView
+        style="@style/Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/prompt_signup"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintTop_toTopOf="@id/toSignupBtn"
+        app:layout_constraintBottom_toBottomOf="@id/toSignupBtn"
+        app:layout_constraintEnd_toStartOf="@id/toSignupBtn"/>
+
+    <TextView
+        style="@style/Button.Profile"
+        android:id="@+id/toSignupBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/to_signup"
+        app:layout_constraintTop_toBottomOf="@id/guideline_to_signup_top"
+        app:layout_constraintEnd_toEndOf="@id/guideline_margin_end"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

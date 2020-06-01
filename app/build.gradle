@@ -40,6 +40,8 @@ dependencies {
     def dagger = "2.24"
     def recycler_view = "1.1.0"
     def androidx_nav = "2.2.2"
+    def retrofit = "2.6.1"
+    def okhttp = "3.11.0"
     
     api "androidx.room:room-runtime:$androidx_room"
     api "androidx.room:room-ktx:$androidx_room"
@@ -55,4 +57,10 @@ dependencies {
 
     implementation "androidx.navigation:navigation-fragment-ktx:$androidx_nav"
     implementation "androidx.navigation:navigation-ui-ktx:$androidx_nav"
+
+
+    implementation "com.squareup.retrofit2:retrofit:$retrofit"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit"
+    implementation  "com.squareup.retrofit2:converter-scalars:$retrofit"
+    implementation "com.squareup.okhttp3:logging-interceptor:$okhttp"
 }

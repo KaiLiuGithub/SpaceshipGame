@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import com.kailiu.spaceship.R
 import com.kailiu.spaceship.SettingsSharedPreferences
 import com.kailiu.spaceship.SpaceshipApp
+import com.kailiu.spaceship.toggleText
 import kotlinx.android.synthetic.main.fragment_settings.*
 import javax.inject.Inject
 
@@ -28,11 +29,11 @@ class SettingsFragment: Fragment() {
 
         volumeSeekbar.progress = settingsSharedPreferences.getMusicVolume().toInt()
 
-        soundBtn.text = if (settingsSharedPreferences.getSoundEffects()) "on" else "off"
+        soundBtn.toggleText(settingsSharedPreferences.getSoundEffects())
 
         soundBtn.setOnClickListener {
-            soundBtn.text = if (soundBtn.text == "on") "off" else "on"
-            settingsSharedPreferences.setSoundEffects(soundBtn.text == "on")
+            soundBtn.toggleText()
+            settingsSharedPreferences.setSoundEffects(soundBtn.isPressed)
         }
     }
 

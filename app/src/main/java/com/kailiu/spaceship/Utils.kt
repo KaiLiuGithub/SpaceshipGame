@@ -37,10 +37,10 @@ fun ImageView.startAnimateBorderColor(color1: Int = R.color.score, color2: Int =
     colorAnimation = ValueAnimator.ofObject(ArgbEvaluator(), colorFrom, colorTo, colorFrom)
     colorAnimation.duration = 5000
 
-    val color1 = resources.getColor(R.color.score)
-    val color2 = resources.getColor(R.color.dialog)
+    val colorA = resources.getColor(R.color.score)
+    val colorB = resources.getColor(R.color.dialog)
 
-    val gradientDrawable = GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, intArrayOf(color2, color1))
+    val gradientDrawable = GradientDrawable(GradientDrawable.Orientation.LEFT_RIGHT, intArrayOf(colorA, colorB))
     gradientDrawable.cornerRadius = 12f
     gradientDrawable.gradientType = GradientDrawable.LINEAR_GRADIENT
     setImageDrawable(gradientDrawable)
@@ -58,6 +58,19 @@ fun ImageView.stopAnimateBorderColor() {
     val gradientDrawable = resources.getDrawable(R.drawable.ic_menu_button)
     setImageDrawable(gradientDrawable)
     colorAnimation.cancel()
+}
+
+fun TextView.toggleText(state: Boolean? = null, textPos: String = "on", textNeg: String = "off") {
+    var bool= state ?: (text == textPos)
+    text = if (bool) {
+        isPressed = true
+        setTextColor(resources.getColor(R.color.settings_toggle))
+        textNeg
+    } else {
+        isPressed = false
+        setTextColor(resources.getColor(R.color.settings))
+        textPos
+    }
 }
 
 abstract class OnTouchAndClickListener: View.OnTouchListener {

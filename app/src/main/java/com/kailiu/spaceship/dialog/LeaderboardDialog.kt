@@ -73,6 +73,28 @@ class LeaderboardDialog(var width: Int, var height: Int, var activity: Activity)
             adapter = viewAdapter
         }
 
+        getLocalScores()
+
+        localTab.isSelected = true
+        globalTab.isSelected = false
+
+        localTab.setOnClickListener {
+            localTab.isSelected = true
+            globalTab.isSelected = false
+            getLocalScores()
+        }
+
+        globalTab.setOnClickListener {
+            localTab.isSelected = false
+            globalTab.isSelected = true
+        }
+
+        boardBtn.setOnClickListener {
+            dismiss()
+        }
+    }
+
+    fun getLocalScores() {
         scoreRepository.getScores().observe(this, Observer { scores ->
             scores?.let {
                 scoreList.clear()
@@ -88,10 +110,6 @@ class LeaderboardDialog(var width: Int, var height: Int, var activity: Activity)
                 viewAdapter.notifyDataSetChanged()
             }
         })
-
-        boardBtn.setOnClickListener {
-            dismiss()
-        }
     }
 
     class ScoreLayoutAdapter(private val myDataset: MutableList<Score>) :

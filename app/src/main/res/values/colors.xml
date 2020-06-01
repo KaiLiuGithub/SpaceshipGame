@@ -11,8 +11,11 @@
     <color name="button_border">#B0B0B0</color>
     <color name="button_text">#ADD8E6</color>
     <color name="score">#FFEA00</color>
-    <color name="menu_item">#EECA88</color>
+    <color name="menu_item">#FFFFFF</color>
+    <color name="menu_item_alt">#EECA88</color>
     <color name="settings">#F27DFD</color>
+    <color name="settings_toggle">#FFFFFF</color>
+    <color name="settings_alt">#64CAFF</color>
 
     <color name="red">#FF0000</color>
     <color name="blue">#0000FF</color>

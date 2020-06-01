@@ -4,6 +4,7 @@
     <string name="menu_start">Start</string>
     <string name="menu_settings">Settings</string>
     <string name="menu_leaderboard">Leaderboard</string>
+    <string name="menu_profile">Login / Signup</string>
     <string name="menu_help">Help</string>
 
     <!-- Settings -->
@@ -27,7 +28,33 @@
     <string name="high_scores">HIGH SCORES</string>
     <string name="back">BACK</string>
     <string name="name">name</string>
+    <string name="local">LOCAL</string>
+    <string name="global">GLOBAL</string>
     <string name="score">score</string>
     <string name="time">timestamp</string>
     <string name="no_scores">no scores saved!</string>
+
+    <!-- Login/Signup -->
+    <string name="login">LOGIN</string>
+    <string name="signup">SIGN UP</string>
+    <string name="prompt_login">Already have an account?</string>
+    <string name="prompt_signup">Don\'t have an account?</string>
+    <string name="to_login">login</string>
+    <string name="to_signup">sign up</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+
+    <!-- Help -->
+    <string name="help">HOW TO PLAY</string>
+    <string name="enemies">ENEMIES</string>
+    <string name="enemies_blurb">Being hit by any of these mobs will cause the player to lose 1 heart and/or a powerup.</string>
+    <string name="enemies_passive">These mobs will move across the screen from top to bottom (and/or side to side).</string>
+    <string name="enemies_active">These mobs will shoot at the player as well as move across the screen.</string>
+    <string name="powerups">POWER UPS</string>
+    <string name="powerups_shield">A shield will appear which will allow the player to sustain 1 extra hit.</string>
+    <string name="powerups_ammo">The player will be able to shoot 2 bullets at once instead of 1.</string>
+    <string name="powerups_heart">The player will gain back 1 heart (max 3).</string>
+    <string name="controls">CONTROLS</string>
+    <string name="controls_shoot">Tapping anywhere will start shooting.</string>
+    <string name="controls_move">Tapping left or right of the rocket will slowly move the rocket horizontally in that direction.</string>
 </resources>

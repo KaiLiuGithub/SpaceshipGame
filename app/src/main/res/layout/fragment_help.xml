@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/background"
+        android:scaleType="centerCrop"/>
+
+    <TextView
+        style="@style/Title"
+        android:id="@+id/helpTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/help"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        style="@style/Title.Subtitle"
+        android:id="@+id/enemiesTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/enemies"
+        app:layout_constraintTop_toBottomOf="@id/helpTitle"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        style="@style/Text.Help"
+        android:id="@+id/enemiesBlurb"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/enemies_blurb"
+        app:layout_constraintTop_toBottomOf="@id/enemiesTitle"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/enemyList1"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#22FFFFFF"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.05"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent="0.3"
+        app:layout_constraintTop_toBottomOf="@id/enemiesBlurb"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:id="@+id/asteroidBlue"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="2dp"
+            android:src="@drawable/asteroid_blue"
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintHeight_percent="0.9"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.233"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <ImageView
+            android:id="@+id/asteroidPurple"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="2dp"
+            android:src="@drawable/asteroid_purple"
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintHeight_percent="0.9"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.233"
+            app:layout_constraintStart_toEndOf="@id/asteroidBlue"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <ImageView
+            android:id="@+id/asteroidBrown"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="2dp"
+            android:src="@drawable/asteroid_brown"
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintHeight_percent="0.9"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.233"
+            app:layout_constraintStart_toEndOf="@id/asteroidPurple"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <ImageView
+            android:id="@+id/alien"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="2dp"
+            android:src="@drawable/alien"
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintHeight_percent="0.9"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.233"
+            app:layout_constraintStart_toEndOf="@id/asteroidBrown"
+            app:layout_constraintTop_toTopOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        style="@style/Text.Help"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/enemies_passive"
+        app:layout_constraintTop_toTopOf="@id/enemyList1"
+        app:layout_constraintStart_toEndOf="@id/enemyList1"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        style="@style/Text.Help"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/enemies_active"
+        app:layout_constraintTop_toTopOf="@id/enemyList2"
+        app:layout_constraintBottom_toBottomOf="@id/enemyList2"
+        app:layout_constraintStart_toEndOf="@id/enemyList2"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/enemyList2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#22FFFFFF"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.2"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent="0.4"
+        app:layout_constraintTop_toBottomOf="@id/enemyList1"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:id="@+id/saucer"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            android:src="@drawable/saucer"
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintHeight_percent="0.25"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.25"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+        <ImageView
+            android:id="@+id/spaceStation"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            android:src="@drawable/satellite"
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintHeight_percent="0.9"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.75"
+            app:layout_constraintStart_toEndOf="@id/saucer"
+            app:layout_constraintTop_toTopOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        style="@style/Title.Subtitle"
+        android:id="@+id/powerupTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/powerups"
+        app:layout_constraintTop_toBottomOf="@id/enemyList2"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/powerupList"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#22FFFFFF"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.2"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent="0.1"
+        app:layout_constraintTop_toBottomOf="@id/powerupTitle"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:id="@+id/shield"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            android:src="@drawable/shield"
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintHeight_percent="0.30"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.9"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+        <ImageView
+            android:id="@+id/ammo"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            android:src="@drawable/ammo"
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintHeight_percent="0.30"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.9"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/shield"/>
+
+        <ImageView
+            android:id="@+id/heart"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            android:src="@drawable/life"
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintHeight_percent="0.30"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.9"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/ammo"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        style="@style/Text.Help"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/powerups_shield"
+        app:layout_constraintTop_toTopOf="@id/powerupList"
+        app:layout_constraintStart_toEndOf="@id/powerupList"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        style="@style/Text.Help"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/powerups_ammo"
+        app:layout_constraintTop_toTopOf="@id/powerupList"
+        app:layout_constraintBottom_toBottomOf="@id/powerupList"
+        app:layout_constraintStart_toEndOf="@id/powerupList"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        style="@style/Text.Help"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/powerups_heart"
+        app:layout_constraintBottom_toBottomOf="@id/powerupList"
+        app:layout_constraintStart_toEndOf="@id/powerupList"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        style="@style/Title.Subtitle"
+        android:id="@+id/controlsTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/controls"
+        app:layout_constraintTop_toBottomOf="@id/powerupList"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/controlsList"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="#22FFFFFF"
+        app:layout_constraintHeight_default="percent"
+        app:layout_constraintHeight_percent="0.1"
+        app:layout_constraintWidth_default="percent"
+        app:layout_constraintWidth_percent="0.1"
+        app:layout_constraintTop_toBottomOf="@id/controlsTitle"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <ImageView
+            android:id="@+id/rocket"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_margin="5dp"
+            android:src="@drawable/rocket"
+            app:layout_constraintHeight_default="percent"
+            app:layout_constraintHeight_percent="0.9"
+            app:layout_constraintWidth_default="percent"
+            app:layout_constraintWidth_percent="0.9"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        style="@style/Text.Help"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/controls_shoot"
+        app:layout_constraintTop_toTopOf="@id/controlsList"
+        app:layout_constraintStart_toEndOf="@id/controlsList"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        style="@style/Text.Help"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="@string/controls_move"
+        app:layout_constraintBottom_toBottomOf="@id/controlsList"
+        app:layout_constraintStart_toEndOf="@id/controlsList"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

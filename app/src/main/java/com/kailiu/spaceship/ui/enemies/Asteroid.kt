@@ -26,8 +26,8 @@ class Asteroid(res: Resources): Enemy(res) {
         width = enemy.width.toDouble()
         height = enemy.height.toDouble()
 
-        width /= IMAGE_SCALE
-        height /= IMAGE_SCALE
+        width /= SMALL_IMAGE_SCALE
+        height /= SMALL_IMAGE_SCALE
 
         width *= GameView.screenRatioX
         height *= GameView.screenRatioX

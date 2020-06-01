@@ -48,8 +48,6 @@
         android:scrollbars="none"
         app:layout_constraintHeight_default="percent"
         app:layout_constraintHeight_percent="0.2"
-        app:layout_constraintWidth_default="percent"
-        app:layout_constraintWidth_percent="0.75"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="@id/guideline_menu_start"
@@ -62,6 +60,7 @@
             android:layout_gravity="center_vertical">
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/paddingStart"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent">
 
@@ -225,7 +224,57 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/infoBtn"
+                android:id="@+id/profileBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent">
+
+                <TextView
+                    style="@style/Text.MainMenu"
+                    android:id="@+id/profileBackground"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_margin="5dp"
+                    android:background="@drawable/ic_menu_button"
+                    app:layout_constraintWidth_default="percent"
+                    app:layout_constraintWidth_percent="0.905"
+                    app:layout_constraintDimensionRatio="1:1"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+
+                <TextView
+                    style="@style/Text.MainMenu"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:text="@string/menu_profile"
+                    android:gravity="center"
+                    app:layout_constraintHeight_default="percent"
+                    app:layout_constraintHeight_percent="0.9"
+                    app:layout_constraintWidth_default="percent"
+                    app:layout_constraintWidth_percent="0.905"
+                    app:layout_constraintTop_toBottomOf="@id/profileBackground"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:src="@drawable/ic_account_circle"
+                    app:layout_constraintHeight_default="percent"
+                    app:layout_constraintHeight_percent="0.5"
+                    app:layout_constraintWidth_default="percent"
+                    app:layout_constraintWidth_percent="0.5"
+                    app:layout_constraintTop_toTopOf="@id/profileBackground"
+                    app:layout_constraintBottom_toBottomOf="@id/profileBackground"
+                    app:layout_constraintStart_toStartOf="@id/profileBackground"
+                    app:layout_constraintEnd_toEndOf="@id/profileBackground"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/helpBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent">
 
@@ -275,6 +324,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/paddingEnd"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent">
 

@@ -5,6 +5,7 @@ import android.content.Context
 import com.kailiu.spaceship.dagger.AppComponent
 import com.kailiu.spaceship.dagger.AppModule
 import com.kailiu.spaceship.dagger.DaggerAppComponent
+import com.kailiu.spaceship.dagger.RetrofitModule
 import com.kailiu.spaceship.database.ScoreRepository
 import javax.inject.Inject
 
@@ -21,7 +22,8 @@ class SpaceshipApp : Application() {
     override fun attachBaseContext(base: Context) {
         super.attachBaseContext(base)
         appComponent = DaggerAppComponent.builder()
-            .appModule(AppModule(this)).build()
+            .appModule(AppModule(this))
+            .retrofitModule(RetrofitModule(this)).build()
         appComponent.inject(this)
     }
 }

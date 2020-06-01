@@ -29,6 +29,8 @@ class Rocket(var res: Resources) {
     private var heightF: Double
     private var widthR: Double
     private var heightR: Double
+    var isInvincible = false
+    var invincibleFrame = 0
     var width: Double
     var height: Double
     var rocket: Bitmap = BitmapFactory.decodeResource(res,
@@ -77,9 +79,23 @@ class Rocket(var res: Resources) {
             }
         )
 
+        if (isInvincible && frame - invincibleFrame > 60) {
+            isInvincible = false
+        }
+
         flame = Bitmap.createScaledBitmap(flame, widthF.toInt(), heightF.toInt(), false)
         flame = Bitmap.createBitmap(flame, 0, 0, widthF.toInt(), heightF.toInt(), matrix, false)
         return flame
+    }
+
+    fun editHealth(frame: Int = 0, isIncrease: Boolean = true) {
+        if (isIncrease) {
+            health++
+        } else if (!isInvincible) {
+            invincibleFrame = frame
+            health--
+            isInvincible = true
+        }
     }
 
     fun resetPosition(w: Int, h: Int) {
@@ -91,19 +107,6 @@ class Rocket(var res: Resources) {
         x += dx
         y += dy
     }
-
-    fun addPickup(type: PickupType) {
-        when (type) {
-            PickupType.SHIELD -> {
-
-            }
-            PickupType.AMMO -> {
-
-            }
-            else -> {}
-        }
-    }
-
     /*fun getCollisionShape(): Triangle {
         return Triangle(x + width.toInt() / 2, y, x, y + height.toInt(), x + width.toInt(), y + height.toInt())
     }*/
